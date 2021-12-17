@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Información del clima en las ciudades
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-3 is-5">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                {{ form.name }}
+                            </div>
+
+                            <div class="control">
+                                <button type="submit" class="button is-info">
+                                    Agregar Ciudad
+                                </button>
+                            </div>
+                                <div class="media-right">
+                                    <a  class="button is-info"  style="background-color:rgb(54, 75, 197);" href="https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=30&lon=-20&zoom=5">
+                                        Ciudades disponibles
+                                    </a>
+                                </div>
+
+                        </div>
+                        {% if message %}
+                            <div class="notification {{ message_class }}">{{ message }}</div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+          
+<hr>
+            <div class="column is-offset-4 is-4">
+                <div class="media-right">
+                    <a href="{% url 'home' %}">
+                        <button class="button is-info" style="background-color:rgb(162, 102, 180);position: relative; left:auto;margin-left: 15%;">Ver en grados Celcius</button>
+                    </a>
+                </div>
+            </div>
+           
+            <div class="column is-offset-4 is-4">
+                <div class="media-right">
+                    <a href="{% url 'home_detalle' %}">
+                        <button class="button is-info" style="background-color:green;position: relative; left:auto;margin-left: 25%;">Ver DETALLES</button>
+                    </a>
+                </div>
+            </div>
+<hr>
+
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {% for city_weather in weather_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{ city_weather.city }}</span>
+                                        <br>
+                                        <span class="subtitle"> {{ city_weather.temperature }}° F</span>
+                                        <br> 
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <a href="{% url 'delete_city' city_weather.city %}">
+                                    <button class="delete"></button>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                            </div>
+                                <div class="content">
+                                    <p>
+                                        <br>
+                                        <span class="title">El promedio es: {{ total }}° F</span>
+                                        <br>
+                                    </p>
+                                </div>
+                        </article>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    </footer>
+</body>
+
+</html>

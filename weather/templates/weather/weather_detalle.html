@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Detalle adicional sobre las ciudades
+                </h1>
+            </div>
+        </div>
+    </section>
+  
+           
+    <div class="column" style=" position: relative; top: 150%; left: 42%;">
+        <div class="media-right">
+            <br>
+            <a href="{% url 'home' %}">
+                <button class="button is-info">Volver a la página principal</button>
+            </a>
+        </div>
+    </div>
+
+
+
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    {% for city_weather in weather_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-50x50">
+                                    <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{ city_weather.city }}</span>
+                                        <br>
+                                        <span class="subtitle"><b>País: </b>{{ city_weather.country }}</span>
+                                        <br>
+                                        <span class="subtitle"> {{ city_weather.temperature_f }}° F</span>
+                                        <br>
+                                        <span class="subtitle"> {{ city_weather.temperature_celcius }}° C</span>
+                                        <br>
+                                        <span class="subtitle"> Viento: {{ city_weather.wind }} m/s</span>
+                                        <br> 
+                                        <span class="subtitle"> Sensación Térmica: {{ city_weather.sensacion_term }} </span>
+                                        <br> 
+                                        <span class="subtitle"> <b>MAX:</b> {{ city_weather.temperature_max_f }}° F <b>|</b> {{ city_weather.temperature_max_c }}° C</span>
+                                        <br> 
+                                        <span class="subtitle"> <b>MIN: &nbsp</b>{{ city_weather.temperature_min_f }}° F <b>|</b> {{ city_weather.temperature_min_c }}° C </span>
+                                        <br> 
+                                        <br>
+                                        <span class="subtitle"> Humedad: {{ city_weather.humedad }} %</span>
+                                        <br>
+                                        <span class="subtitle"> {{ city_weather.description }} </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <a href="{% url 'delete_city' city_weather.city %}">
+                                    <button class="delete"></button>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    </footer>
+</body>
+
+</html>
